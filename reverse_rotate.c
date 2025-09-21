@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_rotate.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftakemur <ftakemur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/11 14:32:36 by marvin            #+#    #+#             */
-/*   Updated: 2025/08/11 14:33:57 by marvin           ###   ########.fr       */
+/*   Created: 2025/09/21 16:08:32 by ftakemur          #+#    #+#             */
+/*   Updated: 2025/09/21 16:08:33 by ftakemur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,23 @@
 
 void	rra(t_node **stack_a)
 {
-	t_node	*last;
-	t_node	*before_last;
-
-	if (*stack_a == NULL || (*stack_a)->next == NULL)
-		return ;
-	before_last = *stack_a;
-	last = (*stack_a)->next;
-	while (last->next != NULL)
-	{
-		before_last = before_last->next;
-		last = last->next;
-	}
-	last->next = *stack_a;
-	*stack_a = last;
-	before_last->next = NULL;
+	if (stack_a != NULL && *stack_a != NULL)
+		*stack_a = (*stack_a)->prev;
+	ft_printf("rra\n");
 }
 
 void	rrb(t_node **stack_b)
 {
-	t_node	*last;
-	t_node	*before_last;
-
-	if (*stack_b == NULL || (*stack_b)->next == NULL)
-		return ;
-	before_last = *stack_b;
-	last = (*stack_b)->next;
-	while (last->next != NULL)
-	{
-		before_last = before_last->next;
-		last = last->next;
-	}
-	last->next = *stack_b;
-	*stack_b = last;
-	before_last->next = NULL;
+	if (stack_b != NULL && *stack_b != NULL)
+		*stack_b = (*stack_b)->prev;
+	ft_printf("rrb\n");
 }
 
 void	rrr(t_node **stack_a, t_node **stack_b)
 {
-	rra(stack_a);
-	rrb(stack_b);
+	if (stack_a != NULL && *stack_a != NULL)
+		*stack_a = (*stack_a)->prev;
+	if (stack_b != NULL && *stack_b != NULL)
+		*stack_b = (*stack_b)->prev;
+	ft_printf("rrr\n");
 }

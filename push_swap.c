@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftakemur <ftakemur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 16:34:02 by marvin            #+#    #+#             */
-/*   Updated: 2025/09/21 10:28:48 by marvin           ###   ########.fr       */
+/*   Created: 2025/09/21 16:06:57 by ftakemur          #+#    #+#             */
+/*   Updated: 2025/09/21 21:23:36 by ftakemur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 void	free_stack(t_node **stack)
 {
 	t_node	*current;
+	t_node	*last;
 	t_node	*tmp;
 
 	if (stack == NULL || *stack == NULL)
 		return ;
+	last = (*stack)->prev;
+	last->next = NULL;
 	current = *stack;
 	while (current != NULL)
 	{
@@ -62,8 +65,8 @@ t_node	*build_stack_from_args(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_node	*stock_a;
-	t_node	*stock_b;
+	t_node	*stack_a;
+	t_node	*stack_b;
 	int		size;
 
 	stack_a = NULL;
@@ -76,7 +79,14 @@ int	main(int argc, char **argv)
 	if (is_sorted(stack_a))
 		return (free_stack(&stack_a), 0);
 	size = assign_index(stack_a);
-	sort_list(&stack_a);
+	if (size == 2)
+		sa(&stack_a);
+	else if (size == 3)
+		sort_three(&stack_a);
+	else if (size <= 5)
+		sort_five(&stack_a, &stack_b);
+	else
+		radix_sort(&stack_a, &stack_b);
 	free_stack(&stack_a);
 	free_stack(&stack_b);
 	return (0);

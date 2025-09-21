@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftakemur <ftakemur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 15:45:15 by marvin            #+#    #+#             */
-/*   Updated: 2025/09/19 16:16:06 by marvin           ###   ########.fr       */
+/*   Created: 2025/09/21 16:07:32 by ftakemur          #+#    #+#             */
+/*   Updated: 2025/09/21 22:02:15 by ftakemur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	are_args_valid(int argc, char **argv)
 	{
 		if (!is_number(argv[i]))
 			return (0);
-		num = ft_atoi(argv[i]);
+		num = ft_atol_by_len(argv[i]);
 		if (num > INT_MAX || num < INT_MIN)
 			return (0);
 		j = i + 1;
 		while (j < argc)
 		{
-			com = ft_atoi(argv[j]);
+			com = ft_atol_by_len(argv[j]);
 			if (num == com)
 				return (0);
 			j++;
@@ -63,24 +63,34 @@ t_node	*create_new_node(int value)
 	if (new_node == NULL)
 		return (NULL);
 	new_node->value = value;
-	new_node->index = 0;
-	new_node->next = NULL;
+	new_node->index = -1;
+	new_node->next = new_node;
+	new_node->prev = new_node;
 	return (new_node);
 }
 
 void	add_node_to_back(t_node **head, t_node *new_node)
 {
-	t_node	*current;
+	t_node	*last;
 
+	if (head == NULL || new_node == NULL)
+		return ;
 	if (*head == NULL)
 	{
 		*head = new_node;
-		return;
+		return ;
 	}
-	current = *head;
-	while (current->next != NULL)
-	{
-		current = current->next;
-	}
-	current->next = new_node;
+	last = (*head)->prev;
+	new_node->next = *head;
+	new_node->prev = last;
+	(*head)->prev = new_node;
+	last->next = new_node;
+}
+
+void	add_node_to_front(t_node **head, t_node *new_node)
+{
+	if (head == NULL || new_node == NULL)
+		return ;
+	add_node_to_back(head, new_node);
+	*head = new_node;
 }
